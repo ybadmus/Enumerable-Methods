@@ -74,4 +74,9 @@ module Enumerable
 
     end
 
+    def my_any
+        
+        
+    end
+
 end
