@@ -111,7 +111,39 @@ module Enumerable
     end
 
     def my_none 
-        
+
+        block_given? ? has_block = true : has_block = false
+
+        if has_block && param.nil?
+            ret = true
+
+            to_a.my_each do |item| 
+                ret = false unless yield item 
+            end
+
+            return puts ret
+        end
+
+        if !has_block && !param.nil?
+            ret = true
+
+            if param.class == Regexp
+                to_a.my_each { |item| ret = false unless item.match(param) } 
+            elsif param.class == Class
+                to_a.my_each { |item| ret = false unless [item.class, item.class.superclass].include?(param) } 
+            end
+
+            return puts ret
+        end
+
+        if !has_block && param.nil?
+            ret = true
+
+            to_a.my_each {  |item| ret = false unless item }
+
+            return puts ret
+        end
+
     end
 
 end
