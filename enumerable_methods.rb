@@ -74,9 +74,40 @@ module Enumerable
 
     end
 
-    def my_any
+    def my_any? (param = nil)
         
-        
+        block_given? ? has_block = true : has_block = false
+
+        if has_block && param.nil?
+            ret = false
+
+            to_a.my_each do |item| 
+                ret = true if yield item 
+            end
+
+            return puts ret
+        end
+
+        if !has_block && !param.nil?
+            ret = false
+
+            if param.class == Regexp
+                to_a.my_each { |item| ret = true if item.match(param) } 
+            elsif param.class == Class
+                to_a.my_each { |item| ret = true if [item.class, item.class.superclass].include?(param) } 
+            end
+
+            return puts ret
+        end
+
+        if !has_block && param.nil?
+            ret = false
+
+            to_a.my_each {  |item| ret = true if item }
+
+            return puts ret
+        end
+
     end
 
 end
