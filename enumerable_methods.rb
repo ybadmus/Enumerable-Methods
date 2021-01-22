@@ -147,6 +147,11 @@ module Enumerable
     end
 
     def my_count (param = nil)
+        
+        if !param.nil? && !block_given?
+            return puts param
+        end
+
     end
 
 end
