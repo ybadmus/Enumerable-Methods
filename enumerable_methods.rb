@@ -164,4 +164,16 @@ module Enumerable
 
     end
 
+    def my_map
+
+        return to_enum(:self) unless block_given? 
+
+        new_arr = []
+
+        to_a.my_each { |item| new_arr << yield item }
+
+        return new_arr
+    end
+
+
 end
