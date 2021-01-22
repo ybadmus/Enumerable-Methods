@@ -148,8 +148,6 @@ module Enumerable
 
     def my_count (param = nil)
 
-        binding.pry
-
         if !param.nil? && !block_given?
             return puts param
         end
