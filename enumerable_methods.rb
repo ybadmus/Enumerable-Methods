@@ -146,4 +146,7 @@ module Enumerable
 
     end
 
+    def my_count (param = nil)
+    end
+
 end
