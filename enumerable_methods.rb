@@ -156,6 +156,12 @@ module Enumerable
             return puts to_a.length
         end
 
+        if param.nil? && block_given?
+            count = 0
+            to_a.my_each { |item| count += 1 if yield item }
+            return puts count
+        end
+
     end
 
 end
