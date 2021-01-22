@@ -175,5 +175,14 @@ module Enumerable
         return new_arr
     end
 
+    def my_inject(initial = nil, symb = nil)
+
+        if !initial.nil? && !block_given?
+            accumulator = 0
+            to_a.my_each { |item| accumulator = accumulator.send(initial, item) }
+            return accumulator
+        end
+
+    end
 
 end
