@@ -177,7 +177,23 @@ module Enumerable
 
     def my_inject(initial = nil, symb = nil)
 
-        if !block_given?
+        if block_given?
+            
+            if initial.nil? && symb.nil?
+
+                accumulator = to_a[0]
+                to_a.my_each_with_index { |item, index| accumulator = yield(accumulator, item) if index > 0  }
+                return puts accumulator
+
+            elsif !initial.nil? && symb.nil?
+
+                accumulator = initial
+                to_a.my_each { |item, index| accumulator = yield(accumulator, item)  }
+                return puts accumulator
+
+            end
+
+        else 
 
             if !initial.nil? && symb.nil?
 
@@ -189,22 +205,6 @@ module Enumerable
 
                 accumulator = initial
                 to_a.my_each { |item| accumulator = accumulator.send(symb, item) } if symb.is_a?(Symbol) || symb.is_a?(String)
-                return puts accumulator
-
-            end
-
-        else 
-
-            if initial.nil? && symb.nil?
-                
-                accumulator = to_a[0]
-                to_a.my_each_with_index { |item, index| accumulator = yield(accumulator, item) if index > 0  }
-                return puts accumulator
-
-            elsif !initial.nil? && symb.nil?
-
-                accumulator = initial
-                to_a.my_each { |item, index| accumulator = yield(accumulator, item)  }
                 return puts accumulator
 
             end
