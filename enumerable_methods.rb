@@ -164,13 +164,17 @@ module Enumerable
 
     end
 
-    def my_map
+    def my_map(proc = nil)
 
-        return puts to_enum(:self) unless block_given? 
+        return puts to_enum(:self) unless block_given? || proc
 
         new_arr = []
 
-        to_a.my_each { |item| new_arr << yield(item) }
+        if proc
+            my_each { |item| new_arr << proc.call(item) }
+          else
+            to_a.my_each { |item| new_arr << yield(item) }
+        end
 
         return puts new_arr
     end
@@ -233,27 +237,29 @@ end
 [nil, true, 99].my_all?
 [].my_all?  
 
-%w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-%w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-%w[ant bear cat].my_any?(/d/)                        #=> false
-[nil, true, 99].my_any?(Integer)                     #=> true
-[nil, true, 99].my_any?                              #=> true
-[].my_any?                                           #=> false
+%w[ant bear cat].my_any? { |word| word.length >= 3 }    #=> true
+%w[ant bear cat].my_any? { |word| word.length >= 4 }    #=> true
+%w[ant bear cat].my_any?(/d/)                           #=> false
+[nil, true, 99].my_any?(Integer)                        #=> true
+[nil, true, 99].my_any?                                 #=> true
+[].my_any?                                              #=> false
 
-%w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
-%w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
-%w{ant bear cat}.my_none?(/d/)                        #=> true
-[1, 3.14, 42].my_none?(Float)                         #=> false
-[].my_none?                                           #=> true
-[nil].my_none?                                        #=> true
-[nil, false].my_none?                                 #=> true
-[nil, false, true].my_none?                           #=> false
+%w{ant bear cat}.my_none? { |word| word.length == 5 }   #=> true
+%w{ant bear cat}.my_none? { |word| word.length >= 4 }   #=> false
+%w{ant bear cat}.my_none?(/d/)                          #=> true
+[1, 3.14, 42].my_none?(Float)                           #=> false
+[].my_none?                                             #=> true
+[nil].my_none?                                          #=> true
+[nil, false].my_none?                                   #=> true
+[nil, false, true].my_none?                             #=> false
 
-[1, 2, 4, 2].my_count                       #=> 4
-[1, 2, 4, 2].my_count(2)                    #=> 2
-[1, 2, 4, 2].my_count { |x| x % 2 == 0 }    #=> 3
+[1, 2, 4, 2].my_count                                   #=> 4
+[1, 2, 4, 2].my_count(2)                                #=> 2
+[1, 2, 4, 2].my_count { |x| x % 2 == 0 }                #=> 3
 
-(1..4).my_map { |i| i*i }      #=> [1, 4, 9, 16]
+(1..4).my_map { |i| i * i }                             #=> [1, 4, 9, 16]
+my_proc = proc { |i| i * i }
+[2, 5, 7, 4, 2].my_map(&my_proc)
 
 (5..10).my_inject(:+)   
 
