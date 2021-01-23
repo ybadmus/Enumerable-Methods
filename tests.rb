@@ -1,4 +1,3 @@
-
 %w[Accra Lagos Lome Cotonou Bamako].my_each { |friend| puts friend }
 %w[Accra Lagos Lome Cotonou Bamako].my_each_with_index { |friend, i| puts "#{friend}, #{i}" }
 %w[Accra Lagos Lome Cotonou Bamako].my_select { |city| city != 'Lagos' }
