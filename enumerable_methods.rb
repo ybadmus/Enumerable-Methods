@@ -57,13 +57,13 @@ module Enumerable
       return ret
     end
 
-    if !has_block && param.nil?
-      ret = true
+    raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
-      to_a.my_each { |item| ret = false unless item }
+    ret = true
 
-      puts ret
-    end
+    to_a.my_each { |item| ret = false unless item }
+
+    puts ret
   end
 
   def my_any?(param = nil)
@@ -91,13 +91,13 @@ module Enumerable
       return ret
     end
 
-    if !has_block && param.nil?
-      ret = false
+    raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
-      to_a.my_each { |item| ret = true if item }
+    ret = false
 
-      ret
-    end
+    to_a.my_each { |item| ret = true if item }
+
+    ret
   end
 
   def my_none?(param = nil)
@@ -125,13 +125,13 @@ module Enumerable
       return ret
     end
 
-    if !has_block && param.nil?
-      ret = true
+    raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
-      to_a.my_each { |item| ret = false if item }
+    ret = true
 
-      ret
-    end
+    to_a.my_each { |item| ret = false if item }
+
+    ret
   end
 
   def my_count(param = nil)
