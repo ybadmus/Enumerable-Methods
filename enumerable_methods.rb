@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/ModuleLength
 module Enumerable
   def my_each
     return to_enum(:self) unless block_given?
@@ -61,7 +62,7 @@ module Enumerable
 
       to_a.my_each { |item| ret = false unless item }
 
-      ret
+      puts ret
     end
   end
 
@@ -134,15 +135,15 @@ module Enumerable
   end
 
   def my_count(param = nil)
-    return param if !param.nil? && !block_given?
+    return puts param if !param.nil? && !block_given?
 
-    return to_a.length if param.nil? && !block_given?
+    return puts to_a.length if param.nil? && !block_given?
 
-    if param.nil? && block_given?
-      count = 0
-      to_a.my_each { |item| count += 1 if yield item }
-      count
-    end
+    raise ArgumentError, 'Too many arguments, Expected 1!' if !param.nil? && block_given?
+
+    count = 0
+    to_a.my_each { |item| count += 1 if yield item }
+    puts count
   end
 
   def my_map(proc = nil)
@@ -166,13 +167,13 @@ module Enumerable
 
         accumulator = to_a[0]
         to_a.my_each_with_index { |item, index| accumulator = yield(accumulator, item) if index.positive? }
-        accumulator
+        puts accumulator
 
       elsif !initial.nil? && symb.nil?
 
         accumulator = initial
         to_a.my_each { |item, _index| accumulator = yield(accumulator, item) }
-        accumulator
+        puts accumulator
 
       end
 
@@ -180,7 +181,7 @@ module Enumerable
 
       accumulator = 0
       to_a.my_each { |item| accumulator = accumulator.send(initial, item) }
-      accumulator
+      puts accumulator
 
     elsif !initial.nil? && !symb.nil?
 
@@ -190,11 +191,13 @@ module Enumerable
           accumulator = accumulator.send(symb, item)
         end
       end
-      accumulator
+      puts accumulator
 
     end
   end
 end
+
+# rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/ModuleLength
 
 def multiply_els(param = nil)
   param&.my_inject { |accumulator, item| accumulator * item }
