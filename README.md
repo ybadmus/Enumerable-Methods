@@ -2,7 +2,7 @@
 
 > This is the first project in the Ruby section of the Microverse Curriculum. It's an introduction to the Ruby language using the Bubble Sort algorithm to understand the syntax.
 
-![screenshot](https://raw.githubusercontent.com/ybadmus/Enumerable-Methods/features/app_screenshot.png)
+![screenshot](https://raw.githubusercontent.com/ybadmus/Enumerable-Methods/features/app_screenshot.PNG)
 
 ## Built With
 
