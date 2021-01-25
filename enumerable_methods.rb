@@ -63,7 +63,7 @@ module Enumerable
 
     to_a.my_each { |item| ret = false unless item }
 
-      ret
+    ret
   end
 
   def my_any?(param = nil)
@@ -135,15 +135,15 @@ module Enumerable
   end
 
   def my_count(param = nil)
-    return   param if !param.nil? && !block_given?
+    return param if !param.nil? && !block_given?
 
-    return   to_a.length if param.nil? && !block_given?
+    return to_a.length if param.nil? && !block_given?
 
     raise ArgumentError, 'Too many arguments, Expected 1!' if !param.nil? && block_given?
 
     count = 0
     to_a.my_each { |item| count += 1 if yield item }
-      count
+    count
   end
 
   def my_map(proc = nil)
@@ -167,13 +167,13 @@ module Enumerable
 
         accumulator = to_a[0]
         to_a.my_each_with_index { |item, index| accumulator = yield(accumulator, item) if index.positive? }
-          accumulator
+        accumulator
 
       elsif !initial.nil? && symb.nil?
 
         accumulator = initial
         to_a.my_each { |item, _index| accumulator = yield(accumulator, item) }
-          accumulator
+        accumulator
 
       end
 
@@ -181,7 +181,7 @@ module Enumerable
 
       accumulator = 0
       to_a.my_each { |item| accumulator = accumulator.send(initial, item) }
-        accumulator
+      accumulator
 
     elsif !initial.nil? && !symb.nil?
 
@@ -191,7 +191,7 @@ module Enumerable
           accumulator = accumulator.send(symb, item)
         end
       end
-        accumulator
+      accumulator
 
     end
   end
