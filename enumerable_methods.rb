@@ -32,69 +32,64 @@ module Enumerable
 
   def my_all?(param = nil)
     has_block = block_given?
+    ret = true
     if has_block && param.nil?
-      ret = true
-      to_a.my_each { |item| ret = false unless yield item }
-      return ret
+      to_a.my_each { |item| return ret = false unless yield item }
     end
     if !has_block && !param.nil?
-      ret = true
       if param.instance_of?(Regexp) || param.instance_of?(String)
-        to_a.my_each { |item| ret = false unless item.match(param) }
+        to_a.my_each { |item| return ret = false unless item.match(param) }
       elsif param.instance_of?(Class)
-        to_a.my_each { |item| ret = false unless [item.class, item.class.superclass].include?(param) }
+        to_a.my_each { |item| ret = return false unless [item.class, item.class.superclass].include?(param) }
+      else
+        to_a.my_each { |item| ret = return false unless item == param }
       end
-      return ret
     end
     raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
-    ret = true
     to_a.my_each { |item| ret = false unless item }
     ret
   end
 
   def my_any?(param = nil)
-    has_block = block_given? ? true : false
+    has_block = block_given?
+    ret = false
+
     if has_block && param.nil?
-      ret = false
-      to_a.my_each { |item| ret = true if yield item }
-      return ret
+      to_a.my_each { |item| return ret = true if yield item }
     end
     if !has_block && !param.nil?
-      ret = false
       if param.instance_of?(Regexp) || param.instance_of?(String)
-        to_a.my_each { |item| ret = true if item.match(param) }
+        to_a.my_each { |item| return ret = true if item.match(param) }
       elsif param.instance_of?(Class)
-        to_a.my_each { |item| ret = true if [item.class, item.class.superclass].include?(param) }
+        to_a.my_each { |item| return ret = true if [item.class, item.class.superclass].include?(param) }
+      else
+        to_a.my_each { |item| return ret = true if item == param }
       end
-      return ret
     end
     raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
-    ret = false
     to_a.my_each { |item| ret = true if item }
     ret
   end
 
   def my_none?(param = nil)
     has_block = block_given? ? true : false
+    ret = true
     if has_block && param.nil?
-      ret = true
-      to_a.my_each { |item| ret = false if yield item }
-      return ret
+      to_a.my_each { |item| return ret = false if yield item }
     end
     if !has_block && !param.nil?
-      ret = true
       if param.instance_of?(Regexp) || param.instance_of?(String)
-        to_a.my_each { |item| ret = false if item.match(param) }
+        to_a.my_each { |item| return ret = false if item.match(param) }
       elsif param.instance_of?(Class)
-        to_a.my_each { |item| ret = false if [item.class, item.class.superclass].include?(param) }
+        to_a.my_each { |item| return ret = false if [item.class, item.class.superclass].include?(param) }
+      else
+        to_a.my_each { |item| return ret = false if item == param }
       end
-      return ret
     end
     raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
-    ret = true
     to_a.my_each { |item| ret = false if item }
     ret
   end
@@ -105,12 +100,12 @@ module Enumerable
       to_a.my_each { |item| count += 1 if item == param }
       return count
     end
-    return puts to_a.length if param.nil? && !block_given?
+    return p to_a.length if param.nil? && !block_given?
     raise LocalJumpError, 'Too many arguments, Expected 1!' if !param.nil? && block_given?
 
     count = 0
     to_a.my_each { |item| count += 1 if yield item }
-    puts count
+    p count
   end
 
   def my_map(proc = nil)
@@ -130,11 +125,11 @@ module Enumerable
       if initial.nil? && symb.nil?
         accumulator = to_a[0]
         to_a.my_each_with_index { |item, index| accumulator = yield(accumulator, item) if index.positive? }
-        puts accumulator
+        p accumulator
       elsif !initial.nil? && symb.nil?
         accumulator = initial
         to_a.my_each { |item, _index| accumulator = yield(accumulator, item) }
-        puts accumulator
+        p accumulator
       end
     else
       raise LocalJumpError, 'Too many arguments, Expected 1!' if initial.nil? && symb.nil?
@@ -142,7 +137,7 @@ module Enumerable
       if !initial.nil? && symb.nil?
         accumulator = to_a[0]
         to_a.my_each_with_index { |item, index| accumulator = accumulator.send(initial, item) if index.positive? }
-        puts accumulator
+        p accumulator
       elsif !initial.nil? && !symb.nil?
         my_inject_ext(symb, initial)
       end
