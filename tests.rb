@@ -1,5 +1,5 @@
-%w[Accra Lagos Lome Cotonou Bamako].my_each { |friend| puts friend }
-%w[Accra Lagos Lome Cotonou Bamako].my_each_with_index { |friend, i| puts "#{friend}, #{i}" }
+%w[Accra Lagos Lome Cotonou Bamako].my_each { |friend| p friend }
+%w[Accra Lagos Lome Cotonou Bamako].my_each_with_index { |friend, i| p "#{friend}, #{i}" }
 %w[Accra Lagos Lome Cotonou Bamako].my_select { |city| city != 'Lagos' }
 %w[ant bear cat].my_all? { |word| word.length >= 3 }
 %w[ant bear cat].my_all? { |word| word.length >= 4 }
@@ -44,6 +44,6 @@ longest = %w[cat sheep bear antelope cattle].my_inject do |memo, word|
   memo.length > word.length ? memo : word
 end
 
-puts longest
+p longest
 
 multiply_els([2, 4, 5])
