@@ -1,6 +1,8 @@
 %w[Accra Lagos Lome Cotonou Bamako].my_each { |friend| p friend }
 %w[Accra Lagos Lome Cotonou Bamako].my_each_with_index { |friend, i| p "#{friend}, #{i}" }
+
 %w[Accra Lagos Lome Cotonou Bamako].my_select { |city| city != 'Lagos' }
+
 %w[ant bear cat].my_all? { |word| word.length >= 3 }
 %w[ant bear cat].my_all? { |word| word.length >= 4 }
 %w[ant bear cat].my_all?(/t/)
