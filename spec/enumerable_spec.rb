@@ -159,4 +159,12 @@ describe Enumerable do
       expect(array.my_count{ |x| x%2==0 }).to eq(3)
     end
   end
+
+  describe "my_map" do
+    it "Returns a new array with the results of running block once for every element in enum." do
+      output = (1..4).map { |i| i*i }  
+      res = [1, 4, 9, 16]
+      expect(output.length).to eq(output.length) 
+    end
+  end
 end
