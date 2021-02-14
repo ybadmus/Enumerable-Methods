@@ -37,7 +37,7 @@ module Enumerable
       to_a.my_each { |item| ret = false unless yield item }
       return ret
     end
-    
+
     if !has_block && !param.nil?
       if param.instance_of?(Regexp) || param.instance_of?(String)
         to_a.my_each { |item| ret = false unless item.match(param) }
@@ -84,16 +84,18 @@ module Enumerable
     has_block = block_given? ? true : false
     ret = true
     if has_block && param.nil?
-      to_a.my_each { |item| return ret = false if yield item }
+      to_a.my_each { |item| ret = false if yield item }
+      return ret
     end
     if !has_block && !param.nil?
       if param.instance_of?(Regexp) || param.instance_of?(String)
-        to_a.my_each { |item| return ret = false if item.match(param) }
+        to_a.my_each { |item| ret = false if item.match(param) }
       elsif param.instance_of?(Class)
-        to_a.my_each { |item| return ret = false if [item.class, item.class.superclass].include?(param) }
+        to_a.my_each { |item| ret = false if [item.class, item.class.superclass].include?(param) }
       else
-        to_a.my_each { |item| return ret = false if item == param }
+        to_a.my_each { |item| ret = false if item == param }
       end
+      return ret
     end
     raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 

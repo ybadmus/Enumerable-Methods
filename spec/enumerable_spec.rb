@@ -102,4 +102,46 @@ describe Enumerable do
       expect(output).to be_falsy
     end
   end
+
+  describe "#my_none" do
+    it "1. Returns true if the block never returns true for all elements" do
+      output = %w{ant bear cat}.my_none? { |word| word.length == 5 }
+      expect(output).to be_truthy
+    end
+
+    it ". Returns true if the block never returns true for all elements" do
+      output = %w{ant bear cat}.none? { |word| word.length >= 4 }
+      expect(output).to be_falsy
+    end
+
+    it "3. Returns true if the block never returns true for all elements" do
+      output = %w{ant bear cat}.none?(/d/)  
+      expect(output).to be_truthy
+    end
+
+    it ". Returns whether pattern === element for none of the collection members" do
+      output = [1, 3.14, 42].none?(Float)  
+      expect(output).to be_falsy
+    end
+
+    it "4. Returns true if the block never returns true for all elements" do
+      output = [].none?     
+      expect(output).to be_truthy
+    end
+
+    it "5. Returns true if the block never returns true for all elements" do
+      output = [nil].none?    
+      expect(output).to be_truthy
+    end
+
+    it "6. Returns true if the block never returns true for all elements" do
+      output = [nil, false].none?   
+      expect(output).to be_truthy
+    end
+
+    it "7. Returns true if the block never returns true for all elements" do
+      output = [nil, false, true].none?      
+      expect(output).to be_falsy
+    end
+  end
 end
