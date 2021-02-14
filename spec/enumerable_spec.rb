@@ -34,43 +34,72 @@ describe Enumerable do
   describe '#my_select' do
     it "Returns an array containing all elements of enum for which the given block returns a true value." do
       res = [2, 4]
-      output = [1,2,3,4,5].select { |num|  num.even?  } 
+      output = [1,2,3,4,5].my_select { |num|  num.even?  } 
       expect(res.sum).to eq(output.sum)
     end
   end
 
   describe '#my_all' do
     it "1. The method returns true if the block never returns false or nil" do
-      output = %w[ant bear cat].all? { |word| word.length >= 3 }
+      output = %w[ant bear cat].my_all? { |word| word.length >= 3 }
       expect(output).to be_truthy
     end
 
     it "2. The method returns true if the block never returns false or nil" do
-      output = %w[ant bear cat].all? { |word| word.length >= 4 }
+      output = %w[ant bear cat].my_all? { |word| word.length >= 4 }
       expect(output).to be_falsy
     end
 
     it "3. The method returns true if the block never returns false or nil" do
-      output = [nil, true, 99].all?    
+      output = [nil, true, 99].my_all?    
       expect(output).to be_falsy
     end
 
     it "4. The method returns true if the block never returns false or nil" do
-      output = [].all?             
+      output = [].my_all?             
       expect(output).to be_truthy
     end
 
     it "1. Returns whether pattern === element for every collection member." do
-      output = %w[ant bear cat].all?(/t/)  
+      output = %w[ant bear cat].my_all?(/t/)  
       expect(output).to be_falsy
     end
 
     it "2. Returns whether pattern === element for every collection member." do
-      output = [1, 2i, 3.14].all?(Numeric)   
+      output = [1, 2i, 3.14].my_all?(Numeric)   
+      expect(output).to be_truthy
+    end
+  end
+
+  describe "#my_any" do
+    it "1. The method returns true if the block ever returns a value other than false or nil" do
+      output = %w[ant bear cat].my_any? { |word| word.length >= 3 }
       expect(output).to be_truthy
     end
 
-    
-    
+    it "2. The method returns true if the block ever returns a value other than false or nil" do
+      output = %w[ant bear cat].my_any? { |word| word.length >= 4 }
+      expect(output).to be_truthy
+    end
+
+    it "1. Returns whether pattern === element for any collection member." do
+      output = %w[ant bear cat].my_any?(/d/)  
+      expect(output).to be_falsy
+    end
+
+    it "3. Returns whether pattern === element for any collection member." do
+      output = [nil, true, 99].my_any?(Integer)  
+      expect(output).to be_truthy
+    end
+
+    it "2. Return true if at least one of the collection members is not false or nil" do
+      output = [nil, true, 99].my_any?    
+      expect(output).to be_truthy
+    end
+
+    it "4. The method returns true if the block ever returns a value other than false or nil." do
+      output = [].my_any?             
+      expect(output).to be_falsy
+    end
   end
 end
