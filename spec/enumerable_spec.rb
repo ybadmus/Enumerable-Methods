@@ -144,4 +144,19 @@ describe Enumerable do
       expect(output).to be_falsy
     end
   end
+
+  describe "#my_count" do
+    let(:array) { [1, 2, 4, 2] }
+    it "Returns the number of items in enum through enumeration" do
+      expect(array.my_count).to eq(4)
+    end
+
+    it "If an argument is given, the number of items in enum that are equal to item are counted" do
+      expect(array.my_count(2)).to eq(2)
+    end
+
+    it "If a block is given, it counts the number of elements yielding a true value" do
+      expect(array.my_count{ |x| x%2==0 }).to eq(3)
+    end
+  end
 end
