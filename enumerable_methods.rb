@@ -34,16 +34,19 @@ module Enumerable
     has_block = block_given?
     ret = true
     if has_block && param.nil?
-      to_a.my_each { |item| return ret = false unless yield item }
+      to_a.my_each { |item| ret = false unless yield item }
+      return ret
     end
+    
     if !has_block && !param.nil?
       if param.instance_of?(Regexp) || param.instance_of?(String)
-        to_a.my_each { |item| return ret = false unless item.match(param) }
+        to_a.my_each { |item| ret = false unless item.match(param) }
       elsif param.instance_of?(Class)
-        to_a.my_each { |item| ret = return false unless [item.class, item.class.superclass].include?(param) }
+        to_a.my_each { |item| ret = false unless [item.class, item.class.superclass].include?(param) }
       else
-        to_a.my_each { |item| ret = return false unless item == param }
+        to_a.my_each { |item| ret = false unless item == param }
       end
+      return ret
     end
     raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
@@ -56,17 +59,21 @@ module Enumerable
     ret = false
 
     if has_block && param.nil?
-      to_a.my_each { |item| return ret = true if yield item }
+      to_a.my_each { |item| ret = true if yield item }
+      return ret
     end
+
     if !has_block && !param.nil?
       if param.instance_of?(Regexp) || param.instance_of?(String)
-        to_a.my_each { |item| return ret = true if item.match(param) }
+        to_a.my_each { |item| ret = true if item.match(param) }
       elsif param.instance_of?(Class)
-        to_a.my_each { |item| return ret = true if [item.class, item.class.superclass].include?(param) }
+        to_a.my_each { |item| ret = true if [item.class, item.class.superclass].include?(param) }
       else
-        to_a.my_each { |item| return ret = true if item == param }
+        to_a.my_each { |item| ret = true if item == param }
       end
+      return ret
     end
+
     raise ArgumentError, 'Too many arguments, Expected 1!' if has_block && !param.nil?
 
     to_a.my_each { |item| ret = true if item }
