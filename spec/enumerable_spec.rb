@@ -167,4 +167,29 @@ describe Enumerable do
       expect(output.length).to eq(output.length) 
     end
   end
+
+  describe "#my_inject" do
+    it "Sum some numbers" do
+      expect((5..10).my_inject(:+)).to eq(45)
+    end
+
+    it "Using a block and inject" do 
+      expect((5..10).my_inject { |sum, n| sum + n }).to eq(45)
+    end
+
+    it "Multiply some numbers" do 
+      expect((5..10).my_inject(1, :*)).to eq(151200)
+    end
+
+    it "Using a block to multiply some numbers" do 
+      expect((5..10).my_inject(1) { |product, n| product * n }).to eq(151200)
+    end
+
+    it "Returns the longest word" do 
+      longest = %w[cat sheep bear antelope cattle].my_inject do |memo, word|
+        memo.length > word.length ? memo : word
+      end
+      expect(longest).to eq("antelope")
+    end
+  end
 end
